@@ -21,6 +21,27 @@
 - **代码合成**（`compose_lib.py`）：去边框、纸色压平、边缘羽化与提亮、缩放推到右侧、纸墨金色映射、竖排中文（《》自动旋转），文字压到画上会直接报错。
 - **严格评审**：六项打分，手畸形、错字、服饰朝代错、性感化都算 P0，不清零不交付。
 
+
+## v2：动漫角色 × 古典画法
+
+![预览：《无职转生》三妻](examples/preview.jpg)
+
+现在可以把动漫角色画成古典诗画，由三个旋钮自由组合：
+
+| 旋钮 | 选项 |
+|---|---|
+| **字** | 红楼式判词：工整、押韵、对仗的七言绝句，按平水韵校平仄和粘对，每句藏一个剧情典故 |
+| **色** | 克制色板：一种纸色、一种墨色，加一种强调色 |
+| **笔** | Art Deco 墨线，或 11 种中国古典人物画法：洛神赋、吴带当风、唐仕女、敦煌飞天、李公麟白描、陈洪绶、十二金钗……每种都附提示词骨架和高清图链接，见 [styles/classical-styles.md](styles/classical-styles.md) |
+
+| 角色 | 判词 |
+|---|---|
+| 希露菲 | 青丝一夜化霜华，墨镜藏眸入帝家。莫道重逢人不识，春风原是旧时花。 |
+| 洛琪希 | 心声难解别家乡，一骑携童出院墙。弟子焚香尊若圣，十年笑约作新娘。 |
+| 艾莉丝 | 赤焰飞扬意气高，留书断发入风涛。霜锋磨尽圣门雪，未诉相思先拔刀。 |
+
+系列合成脚本在 `compose/`：`compose_lib.py` 是系列版（固定版式骨架，指定哪几条边出血、不羽化，其余边提亮），`compose_bw.py` 让半句之间只空半格，`example_mushoku.py` 是上面这三张的参数。
+
 ## English
 
 **poem-plate** is an agent skill that turns classical Chinese poems and characters into minimal, print-like illustrated plates. An image model draws the figure; `compose_lib.py` scales it to one side, maps everything to a strict cream / near-black / single-gold palette, feathers the edges, and typesets the poem, its source, and a signature vertically in the empty space. A strong reviewer model scores each plate and blocks delivery on P0 issues (malformed hands, wrong characters, wrong-era costume). The skill itself is written in Chinese.
