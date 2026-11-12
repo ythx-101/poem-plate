@@ -1,0 +1,35 @@
+# poem-plate
+
+> 给 Claude Code 等 AI agent 用的诗画合成技能：生图模型画人物，Python 代码负责留白、配色和竖排中文诗句，产出 3:4 古典诗意插画。
+> An agent skill + Python compositor for AI-illustrated classical Chinese poem plates with accurate vertical CJK typesetting.
+
+## What it does
+
+1. 核实文字：诗句、出处逐字对照可靠全文，画里不放任何字
+2. 生图：用任意能出 3:4 插画的模型画人物
+3. 合成：代码缩放到一侧、纸墨金三色映射、边缘羽化、竖排中文
+4. 评审：六项打分，手畸形、错字、服饰朝代错都算 P0
+5. 交付：成品 PNG、生图原图、分数；不替用户发帖
+
+## Files
+
+- [SKILL.md](https://github.com/ythx-101/poem-plate/blob/main/SKILL.md): 给 agent 读的完整流程说明
+- [compose_lib.py](https://github.com/ythx-101/poem-plate/blob/main/compose_lib.py): 单张合成库
+- [example_compose.py](https://github.com/ythx-101/poem-plate/blob/main/example_compose.py): 单张合成示例
+- [compose/](https://github.com/ythx-101/poem-plate/tree/main/compose): 系列版合成脚本与《无职转生》参数示例（原图需自备，compose_bw.py 需要 scipy）
+- [styles/classical-styles.md](https://github.com/ythx-101/poem-plate/blob/main/styles/classical-styles.md): 11 种中国古典人物画法与提示词骨架
+- [examples/](https://github.com/ythx-101/poem-plate/tree/main/examples): 预览图与生图原图
+
+## Quick start
+
+    pip install -r requirements.txt
+    export POEM_FONT=/path/to/NotoSerifSC-Light.otf
+    python example_compose.py examples/xinfu-raw.jpg out.png
+
+## Key facts
+
+- 画布 1500×2000（3:4）
+- 色值：纸 #f5f4ed，墨 #141413，金 #B8893A–#D4AF6A
+- 环境变量：POEM_FONT（中文字体文件）、POEM_SIGNATURE、POEM_HANDLE
+- 依赖：numpy、pillow，可选 scipy（仅 compose/compose_bw.py）
+- 许可证：MIT

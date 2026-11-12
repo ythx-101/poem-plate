@@ -77,7 +77,10 @@ def soft_map(im):
 
 def _sprite(text, size, rotate_deg=0, pad=6):
     scale = 4
-    font = ImageFont.truetype(FONT_PATH, size * scale)
+    try:
+        font = ImageFont.truetype(FONT_PATH, size * scale)
+    except OSError:
+        raise SystemExit(f"找不到字体 {FONT_PATH}，请用 POEM_FONT 指定一个中文字体文件（.otf/.ttf/.ttc）/ font not found, set POEM_FONT")
     bbox = font.getbbox(text)
     p = pad * scale
     g = Image.new("L", (max(1, bbox[2] - bbox[0] + 2 * p), max(1, bbox[3] - bbox[1] + 2 * p)), 0)

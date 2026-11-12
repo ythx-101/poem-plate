@@ -1,0 +1,3 @@
+numpy>=1.24
+pillow>=9.1      # Image.Resampling
+scipy>=1.10      # 只有 compose/compose_bw.py（系列版去花瓣）需要

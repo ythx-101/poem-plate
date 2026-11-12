@@ -1,3 +1,6 @@
+"""《无职转生》三张系列图的参数示例。
+用法：python compose/example_mushoku.py [sylphy_cl roxy_cl eris_cl]
+cl_*.png 等生图原图不随仓库提供，请换成你自己的原图路径；需要 scipy，并设置 POEM_FONT。"""
 import sys
 import os; sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import compose_bw  # installs column_tight + clean_petals

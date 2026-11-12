@@ -20,7 +20,8 @@ GOLD = np.array([0xB8, 0x89, 0x3A], np.float32)
 LGOLD = np.array([0xD4, 0xAF, 0x6A], np.float32)
 import os
 FONT_PATH = os.environ.get("POEM_FONT", str(Path(__file__).resolve().parent.parent / "fonts" / "NotoSerifSC-Light.otf"))
-HANDLE = "@YuLin807"
+SIGNATURE = os.environ.get("POEM_SIGNATURE", "青月")   # vertical name at lower left
+HANDLE = os.environ.get("POEM_HANDLE", "@YuLin807")    # rotated handle under the name
 
 # Series skeleton (identical on all four plates)
 MARGIN = 600          # text zone width on the left
@@ -75,7 +76,10 @@ def soft_map(im):
 
 def _sprite(text, size, rotate_deg=0, pad=6):
     scale = 4
-    font = ImageFont.truetype(FONT_PATH, size * scale)
+    try:
+        font = ImageFont.truetype(FONT_PATH, size * scale)
+    except OSError:
+        raise SystemExit(f"找不到字体 {FONT_PATH}，请用 POEM_FONT 指定一个中文字体文件（.otf/.ttf/.ttc）/ font not found, set POEM_FONT")
     bbox = font.getbbox(text)
     p = pad * scale
     g = Image.new("L", (max(1, bbox[2] - bbox[0] + 2 * p), max(1, bbox[3] - bbox[1] + 2 * p)), 0)
@@ -136,14 +140,14 @@ def place_text(rgb, columns, tag):
         foot = np.maximum(foot, column(rgb, text, size, step, cx, top))
         log.append(f"cx={cx:.0f} {text}  bottom={top + len(text) * step:.0f}")
         cursor -= cw + gap
-    # signature column: gold series tag at top, 青月 + handle at the bottom
+    # signature column: gold series tag at top, SIGNATURE + handle at the bottom
     size, step, cw = SIG
     cx = 115.0  # fixed signature/tag column across the series
     handle = _sprite(HANDLE, 24, -90, pad=8)
     hy_bottom = SIG_BOTTOM
     hy = hy_bottom - handle.shape[0] / 2
     sig_top = hy_bottom - handle.shape[0] - 16 - 2 * step
-    foot = np.maximum(foot, column(rgb, "青月", size, step, cx, sig_top))
+    foot = np.maximum(foot, column(rgb, SIGNATURE, size, step, cx, sig_top))
     foot = np.maximum(foot, blit(rgb, handle, cx, hy))
     foot = np.maximum(foot, column(rgb, tag, TAG_SIZE, TAG_STEP, cx, TEXT_TOP + 8, GOLD))
     log.append(f"cx={cx:.0f} sig top={sig_top:.0f} tag={tag}")
